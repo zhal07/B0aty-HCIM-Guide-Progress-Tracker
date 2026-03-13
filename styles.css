@@ -1,0 +1,941 @@
+/* =========================================================
+   OSRS DESIGN SYSTEM — HCIM Guide Tracker
+   Based on the Gielinor Interface Design System
+   ========================================================= */
+
+:root {
+  /* --- Core Parchment / Panel Colors --- */
+  --osrs-parchment:        #f5e8c2;
+  --osrs-parchment-light:  #fdf3d7;
+  --osrs-parchment-dark:   #c8b88a;
+  --osrs-parchment-border: #8b7355;
+
+  /* --- Interface Frame / Chrome --- */
+  --osrs-frame-dark:       #2b1d0e;
+  --osrs-frame-mid:        #3d2b1f;
+  --osrs-frame-brown:      #5c3a1e;
+  --osrs-frame-tan:        #7a5c3a;
+
+  /* --- Gold / Highlight --- */
+  --osrs-gold:             #c8a94a;
+  --osrs-gold-bright:      #ffcc44;
+  --osrs-gold-dim:         #8a6e2a;
+  --osrs-gold-text:        #ff981f;
+
+  /* --- Text Colors --- */
+  --osrs-text-primary:     #1a0e00;
+  --osrs-text-light:       #ffe8b0;
+  --osrs-text-orange:      #ff981f;
+
+  /* --- Semantic UI Colors --- */
+  --osrs-danger:           #8b1a1a;
+  --osrs-info:             #1a5a8a;
+
+  /* --- Inventory / Slot Colors --- */
+  --osrs-slot-bg:          #2a1f0e;
+  --osrs-slot-hover:       #3d2e14;
+  --osrs-slot-border:      #564830;
+
+  /* --- Typography --- */
+  --font-display:   'Cinzel', 'Times New Roman', serif;
+  --font-body:      'IM Fell English', Georgia, serif;
+
+  /* --- Spacing --- */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+
+  --layout-outer-max-width: 1024px;
+  --layout-inner-max-width: 768px;
+  --layout-inner-width: 85%;
+  --layout-mobile-max: 640px;
+  --layout-tablet-max: 1023px;
+
+  /* --- Shadows --- */
+  --shadow-panel:   2px 2px 0 #1a0e00, 4px 4px 0 rgba(0,0,0,0.3);
+  --shadow-button:  inset 1px 1px 0 #ffcc44, inset -1px -1px 0 #5c3a1e, 2px 2px 0 #1a0e00;
+}
+
+/* =========================================================
+   RESET + BASE
+========================================================= */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* =========================================================
+   BODY & PAGE LAYOUT
+========================================================= */
+
+body {
+  font-family: var(--font-body);
+  color: var(--osrs-text-light);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: #1a0e00;
+  background-image:
+    radial-gradient(ellipse at 20% 20%, rgba(90,55,20,0.3) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(60,35,10,0.4) 0%, transparent 60%),
+    repeating-linear-gradient(
+      0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+    );
+}
+
+/* Two-container layout: outer 1024px, inner 768px */
+.page-outer {
+  width: min(100%, var(--layout-outer-max-width));
+  margin-inline: auto;
+  padding: 0 clamp(var(--space-md), 12.5%, 128px);
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.page-inner {
+  width: min(var(--layout-inner-width), var(--layout-inner-max-width));
+  margin-inline: auto;
+  padding: clamp(var(--space-sm), 1.5vw, var(--space-md));
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+/* =========================================================
+   MATERIAL SYMBOLS — Icon sizing
+========================================================= */
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-size: 20px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  user-select: none;
+}
+
+/* Slightly smaller inside header buttons */
+.btn-icon {
+  font-size: 18px;
+}
+
+/* =========================================================
+   HEADER — OSRS Panel Style
+========================================================= */
+
+header {
+  background: var(--osrs-frame-dark);
+  background-image: linear-gradient(to bottom, var(--osrs-frame-mid), var(--osrs-frame-dark));
+  border: 3px solid var(--osrs-frame-dark);
+  outline: 2px solid var(--osrs-gold-dim);
+  outline-offset: -5px;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+/* Buttons container: episode row + utility row */
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+.buttons-container .episode-select {
+  width: 100%;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 3vw, 1.6rem);
+  font-weight: 700;
+  color: var(--osrs-gold);
+  text-shadow: 1px 1px 0 #000, 0 0 12px rgba(200,169,74,0.4);
+  letter-spacing: 0.05em;
+}
+
+/* =========================================================
+   PROGRESS BAR — OSRS Skill Bar Style
+========================================================= */
+
+.progress-bar-container {
+  position: sticky;
+  top: 8px;
+  z-index: 50;
+    background: var(--osrs-frame-mid);
+    border: 2px solid var(--osrs-frame-dark);
+    outline: 2px solid var(--osrs-parchment-border);
+    outline-offset: -5px;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.6), inset 1px 1px 0 rgba(255,255,255,0.1);
+    margin-bottom: var(--space-md);
+}
+
+
+.progress-bar-body {
+}
+
+.progress-bar-labels {
+    margin-inline: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+/* "Episode Progress" label — left */
+.progress-label-left {
+  font-family: var(--font-display);
+    font-size: 0.8rem;
+  letter-spacing: 0.06em;
+    color: var(--osrs-text-light);
+  text-shadow: 1px 1px 0 #000;
+  white-space: nowrap;
+    position: relative;
+    margin-top: 15px;
+}
+
+/* task count — right */
+.progress-label-count {
+  font-family: var(--font-display);
+    font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--osrs-text-light);
+  text-shadow: 1px 1px 0 #000;
+  white-space: nowrap;
+}
+
+.progress-bar {
+    font: var(--font-body);
+    margin-bottom: 12px;
+    margin-top: 5px;
+    margin-inline: 10px;
+    height: 22px;
+    background: var(--osrs-frame-dark);
+    border: 4px ridge var(--osrs-parchment-border);
+  overflow: hidden;
+    position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, #1a6e1a, #3ab83a);
+  box-shadow: 0 0 6px rgba(58,184,58,0.5);
+  transition: width 0.6s ease;
+}
+
+/* percent — centered inside the bar */
+.progress-percent {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+  color: var(--osrs-text-light);
+  text-shadow: 1px 1px 0 #000;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   BUTTONS — OSRS Button Variants
+========================================================= */
+
+.btn {
+  font-family: var(--font-display);
+  font-size: clamp(0.72rem, 0.9vw, 0.85rem);
+  letter-spacing: 0.06em;
+  padding: 6px 14px;
+  border: 2px solid var(--osrs-frame-dark);
+  cursor: pointer;
+  transition: filter 0.1s, transform 0.1s;
+  position: relative;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.6);
+  background: linear-gradient(to bottom, #8a6230, #5c3a1e);
+  color: var(--osrs-gold);
+  box-shadow: var(--shadow-button);
+  flex-shrink: 1;
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:active {
+  transform: translate(1px, 1px);
+}
+
+.btn:hover {
+  filter: brightness(1.15);
+}
+
+.btn.active {
+  background: linear-gradient(to bottom, var(--osrs-gold-bright), var(--osrs-gold));
+  color: var(--osrs-frame-dark);
+  border-color: var(--osrs-frame-dark);
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.5), inset -1px -1px 0 #5c3a1e, 2px 2px 0 #1a0e00;
+}
+
+.btn.active:hover {
+  filter: brightness(1.1);
+}
+
+.btn-danger {
+  background: linear-gradient(to bottom, #6e1a1a, #3d0e0e);
+  color: #ff8888;
+  border-color: var(--osrs-frame-dark);
+  box-shadow: inset 1px 1px 0 rgba(255,100,100,0.3), inset -1px -1px 0 rgba(0,0,0,0.5), 2px 2px 0 #1a0e00;
+}
+
+.btn-danger:hover {
+  filter: brightness(1.2);
+}
+
+/* Bank mark-all button — inline with count, no btn base styles */
+.mark-all-button {
+  display: none;
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  padding: 0;
+  flex-shrink: 0;
+  border: 1px outset var(--osrs-text-light);
+  background: transparent;
+  color: var(--osrs-text-light);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.1s, border-color 0.1s;
+  vertical-align: middle;
+  align-self: center;
+}
+
+.mark-all-button .material-symbols-outlined {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.mark-all-button:hover {
+  color: var(--osrs-gold);
+  border-color: var(--osrs-gold);
+}
+
+/* Show mark-all only when bank is expanded */
+.bank-section:has(.bank-content.active) .mark-all-button {
+  display: inline-flex;
+}
+
+.utility-buttons-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--space-md);
+  width: 100%;
+  min-width: 0;
+}
+
+.utility-buttons-right {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-left: auto;
+  min-width: 0;
+}
+
+/* =========================================================
+   OSRS TOOLTIPS — fixed position to avoid clipping
+========================================================= */
+
+.tooltip-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.osrs-tooltip {
+  background: var(--osrs-frame-dark);
+  border: 1px solid var(--osrs-gold-dim);
+  color: var(--osrs-text-orange);
+  font-family: 'Courier New', monospace;
+  font-size: 0.6rem;
+  padding: 3px 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10000;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.8);
+}
+
+.osrs-tooltip-fixed {
+  position: fixed;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+
+.episode-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  width: 100%;
+}
+
+.episode-select > .tooltip-wrap {
+  flex: 1 1 0;
+  min-width: 2.5em;
+}
+
+.episode-select .tooltip-wrap .btn {
+  width: 100%;
+}
+
+/* =========================================================
+   CHECKLIST CONTAINER
+========================================================= */
+
+.checklist-container {
+  scroll-margin-top: 80px;
+}
+
+/* =========================================================
+   BANK SECTION — OSRS Panel Component
+========================================================= */
+
+.bank-section {
+  scroll-margin-top: 80px;
+  background: var(--osrs-parchment);
+  border: 3px solid var(--osrs-frame-dark);
+  outline: 2px solid var(--osrs-gold-dim);
+  outline-offset: -5px;
+  box-shadow: var(--shadow-panel);
+  color: var(--osrs-text-primary);
+  position: relative;
+  margin-bottom: var(--space-lg);
+  overflow: hidden;
+  isolation: isolate;
+  transition: outline-color 0.15s ease;
+}
+
+.bank-section::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px solid var(--osrs-parchment-border);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bank-section:hover {
+  outline-color: var(--osrs-gold);
+}
+
+/* Bank Header — OSRS Panel Header */
+.bank-header {
+  background: var(--osrs-frame-dark);
+  background-image: linear-gradient(to bottom, var(--osrs-frame-mid), var(--osrs-frame-dark));
+  border-bottom: 2px solid var(--osrs-gold-dim);
+  padding: var(--space-sm) var(--space-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  gap: var(--space-sm);
+  transition: background 0.15s ease;
+}
+
+.bank-header:hover {
+  background: linear-gradient(to bottom, var(--osrs-frame-brown), var(--osrs-frame-mid));
+}
+
+.bank-header:active {
+  background: var(--osrs-frame-brown);
+  box-shadow: inset 1px 1px 0 rgba(0,0,0,0.3);
+}
+
+.bank-header h3 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--osrs-gold);
+  letter-spacing: 0.04em;
+  overflow-wrap: anywhere;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Right side of bank header: count + mark button */
+.bank-header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-shrink: 0;
+}
+
+/* Bank progress count */
+.bank-progress-count {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  color: var(--osrs-text-light);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* Bank Progress Bar — sits at the seam between header chrome and parchment body */
+.bank-progress-bar {
+  height: 6px;
+  background: var(--osrs-slot-bg);
+  border-left: 1px solid var(--osrs-parchment-border);
+  border-right: 1px solid var(--osrs-parchment-border);
+}
+
+.bank-progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, #1a6e1a, #3ab83a);
+  box-shadow: 0 0 6px rgba(58,184,58,0.5);
+  transition: width 0.6s ease;
+}
+
+/* Bank Content — OSRS panel body */
+.bank-content {
+  padding: clamp(var(--space-md), 1.8vw, var(--space-lg));
+  display: none;
+  background: var(--osrs-parchment);
+}
+
+.bank-content.active {
+  display: block;
+}
+
+/* =========================================================
+   CHECKLIST ITEMS — Task Rows
+========================================================= */
+
+.checklist-item {
+  display: flex;
+  gap: var(--space-md);
+  align-items: flex-start;
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-xs);
+  background: var(--osrs-parchment-light);
+  border: 1px solid var(--osrs-parchment-border);
+  color: var(--osrs-text-primary);
+  transition: background 0.15s, box-shadow 0.15s;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.checklist-item:hover:not(.completed) {
+  background: #fdf6e0;
+  box-shadow: inset 2px 0 0 var(--osrs-gold-dim);
+}
+
+.checklist-item.completed {
+  background: var(--osrs-parchment-dark);
+  cursor: default;
+}
+
+.checklist-item.completed .task-text,
+.checklist-item.completed .withdraw-sublist,
+.checklist-item.completed .withdraw-subitem {
+  text-decoration: line-through;
+  color: var(--osrs-parchment-border);
+}
+
+.checklist-item.next-task {
+  border: 2px solid var(--osrs-gold-dim);
+}
+
+.task-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.task-text {
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Checkbox — OSRS inventory slot style */
+.checkbox {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  cursor: pointer;
+  flex-shrink: 0;
+  appearance: none;
+  background: var(--osrs-slot-bg);
+  border: 1px solid var(--osrs-slot-border);
+  position: relative;
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.checkbox:hover {
+  background: var(--osrs-slot-hover);
+  border-color: var(--osrs-frame-tan);
+}
+
+.checkbox:checked {
+  background: var(--osrs-slot-hover);
+  border-color: var(--osrs-gold-dim);
+  box-shadow: inset 0 0 0 1px rgba(200,169,74,0.3);
+}
+
+.checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: var(--osrs-gold);
+  text-shadow: 0 0 1px #000, 1px 1px 0 #000;
+}
+
+/* Withdraw Sublist */
+.withdraw-sublist {
+  margin: var(--space-xs) 0 0 var(--space-md);
+  padding: 0 0 0 var(--space-md);
+  display: grid;
+  gap: var(--space-xs);
+  list-style: disc;
+  font-family: var(--font-body);
+  color: var(--osrs-text-primary);
+}
+
+.withdraw-subitem {
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+/* Wiki links */
+.wiki-link {
+  color: var(--osrs-info);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.wiki-link:hover {
+  color: var(--osrs-gold);
+}
+
+.checklist-item.completed .wiki-link {
+  color: inherit;
+}
+
+/* =========================================================
+   MODAL DIALOG
+========================================================= */
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal-dialog {
+  background: var(--osrs-parchment);
+  border: 3px solid var(--osrs-frame-dark);
+  outline: 2px solid var(--osrs-gold-dim);
+  outline-offset: -5px;
+  box-shadow: var(--shadow-panel);
+  position: relative;
+  min-width: 300px;
+  max-width: 400px;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-30px); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+.modal-dialog::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px solid var(--osrs-parchment-border);
+  pointer-events: none;
+}
+
+.modal-header {
+  background: var(--osrs-frame-dark);
+  background-image: linear-gradient(to bottom, var(--osrs-frame-mid), var(--osrs-frame-dark));
+  border-bottom: 2px solid var(--osrs-gold-dim);
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--osrs-gold);
+  letter-spacing: 0.08em;
+  text-shadow: 1px 1px 0 #000, 0 0 12px rgba(200,169,74,0.4);
+  text-align: center;
+}
+
+.modal-message {
+  padding: var(--space-lg) var(--space-md);
+  color: var(--osrs-text-primary);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.modal-footer {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border-top: 1px solid var(--osrs-parchment-border);
+  justify-content: center;
+}
+
+.modal-footer .btn {
+  flex: 1;
+}
+
+/* =========================================================
+   SIDE ACTION BAR — OSRS Inventory Panel Style
+========================================================= */
+
+.side-action-bar {
+  position: fixed;
+  top: 50%;
+  transform: translate(-115%, -50%);
+  z-index: 40;
+  pointer-events: auto;
+}
+
+.action-slot-container {
+    background: var(--osrs-frame-mid);
+    border: 2px solid var(--osrs-frame-dark);
+    outline: 2px solid var(--osrs-parchment-border);
+    outline-offset: -1px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+    gap: 6px;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.6), inset 1px 1px 0 rgba(255,255,255,0.1);
+}
+
+.action-slot {
+  width: 44px;
+  height: 44px;
+  background: var(--osrs-slot-bg);
+  border: 1px solid var(--osrs-slot-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--osrs-text-light);
+  cursor: pointer;
+  transition: background 0.1s, border-color 0.1s, box-shadow 0.1s;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.action-slot:hover {
+  background: var(--osrs-slot-hover);
+  border-color: var(--osrs-frame-tan);
+  box-shadow: inset 0 0 0 1px rgba(200,169,74,0.2);
+}
+
+.action-slot:active {
+  background: var(--osrs-frame-brown);
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.action-slot:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.action-slot:disabled:hover {
+  background: var(--osrs-slot-bg);
+  border-color: var(--osrs-slot-border);
+  box-shadow: none;
+}
+
+/* Action slot icon color states */
+.action-slot .material-symbols-outlined {
+  color: var(--osrs-text-light);
+  transition: color 0.1s;
+}
+
+.action-slot:hover .material-symbols-outlined {
+  color: var(--osrs-gold);
+}
+
+.action-slot:disabled .material-symbols-outlined {
+  opacity: 0.4;
+}
+
+/* =========================================================
+   FIREWORKS PARTICLES
+========================================================= */
+
+.firework-particle {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: var(--osrs-gold-bright);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  box-shadow: 0 0 4px rgba(255,204,68,0.8);
+}
+
+/* =========================================================
+   RESPONSIVE — 640px and below
+========================================================= */
+
+@media (max-width: 640px) {
+  .page-outer {
+    width: min(100%, var(--layout-outer-max-width));
+    padding-inline: var(--space-sm);
+  }
+
+  .page-inner {
+    width: min(var(--layout-inner-width), var(--layout-inner-max-width));
+    padding-inline: var(--space-sm);
+  }
+
+  header {
+    padding: var(--space-sm);
+  }
+
+  h1 {
+    font-size: 1.15rem;
+  }
+
+  .bank-header,
+  .page-inner {
+    padding-inline: var(--space-sm);
+  }
+
+  .bank-content {
+    padding: var(--space-sm);
+  }
+
+  .bank-header h3 {
+    font-size: 0.9rem;
+  }
+
+  .bank-progress-count {
+    font-size: 0.65rem;
+  }
+
+  .checklist-item {
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+  }
+
+  .task-text {
+    font-size: 0.9rem;
+  }
+
+  .withdraw-sublist {
+    margin-left: var(--space-sm);
+  }
+
+  .btn {
+    font-size: 0.7rem;
+  }
+
+  .utility-buttons-right {
+    margin-left: 0;
+  }
+
+  .checkbox {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    min-height: 18px;
+  }
+
+  .checkbox:checked::after {
+    font-size: 0.65rem;
+  }
+
+  /* Mobile: action bar moves to bottom-right, horizontal */
+  .side-action-bar {
+    left: auto;
+    right: 10px;
+    top: auto;
+    bottom: 15px;
+    transform: none;
+    z-index: 40;
+  }
+
+  .action-slot-container {
+    flex-direction: row;
+    gap: 2px;
+  }
+
+  .action-slot {
+    width: 40px;
+    height: 40px;
+  }
+
+  .modal-dialog {
+    min-width: 280px;
+    max-width: 90vw;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .page-outer {
+    width: min(100%, var(--layout-outer-max-width));
+    padding-inline: clamp(16px, 4vw, 32px);
+  }
+
+  .page-inner {
+    width: min(var(--layout-inner-width), var(--layout-inner-max-width));
+    padding-inline: clamp(10px, 2vw, 16px);
+  }
+}
+
+@media (min-width: 1025px) {
+  .page-outer {
+    width: min(100%, var(--layout-outer-max-width));
+    padding-inline: clamp(20px, 4vw, 56px);
+  }
+
+  .page-inner {
+    width: min(var(--layout-inner-width), var(--layout-inner-max-width));
+    padding-inline: clamp(12px, 1.5vw, var(--space-md));
+  }
+}
