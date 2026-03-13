@@ -31,8 +31,5 @@ An interactive checklist tracker for the B0aty HCIM (Hardcore Ironman Mode) guid
 - `app.js` - Application logic and UI interactions
 - `styles.css` - Styling and layout
 - `data.js` - Episode and task data
-- `resources/` - Contains the wiki file taken from the OSRS wiki and used to as reference material
+- `resources/` - Contains the wiki file taken from the OSRS wiki and used as reference material
 
-## Browser Compatibility
-
-Works in all modern browsers that support ES6 and localStorage.
