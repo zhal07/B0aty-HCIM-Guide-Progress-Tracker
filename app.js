@@ -542,7 +542,7 @@
         }
     }
 
-    function createTaskElement(task, taskIndex, bankIndex) {
+    function createTaskElement(task, taskIndex, bankIndex, bank) {
         const item = document.createElement("div");
         item.className = "checklist-item";
         item.dataset.bankIndex = bankIndex;
@@ -565,8 +565,15 @@
 
         const withdrawItems = parseWithdrawTask(task);
         if (withdrawItems) {
+            const screenshotUrl = window.BANK_WITHDRAW_SCREENSHOTS?.[String(bank?.bank)];
+            const withdrawWrapper = document.createElement("div");
+            withdrawWrapper.className = "withdraw-wrapper";
+            if (screenshotUrl) {
+                withdrawWrapper.classList.add("has-screenshot");
+            }
+
             renderTextWithLinks(text, `Withdraw${withdrawItems.inventoryNote || ":"}`);
-            taskContent.appendChild(text);
+            withdrawWrapper.appendChild(text);
 
             const sublist = document.createElement("ul");
             sublist.className = "withdraw-sublist";
@@ -577,7 +584,24 @@
                 sublist.appendChild(withdrawTaskItem);
             });
 
-            taskContent.appendChild(sublist);
+            withdrawWrapper.appendChild(sublist);
+
+            if (screenshotUrl) {
+                const img = document.createElement("img");
+                img.className = "withdraw-screenshot";
+                img.src = screenshotUrl;
+                img.alt = "Withdraw items reference";
+                img.loading = "lazy";
+                img.width = 200;
+                img.height = 200;
+                img.onerror = () => {
+                    img.style.display = "none";
+                    withdrawWrapper.classList.remove("has-screenshot");
+                };
+                withdrawWrapper.appendChild(img);
+            }
+
+            taskContent.appendChild(withdrawWrapper);
         } else {
             renderTextWithLinks(text, task);
             taskContent.appendChild(text);
@@ -975,7 +999,7 @@
             }
 
             bank.tasks.forEach((task, taskIndex) => {
-                content.appendChild(createTaskElement(task, taskIndex, bankIndex));
+                content.appendChild(createTaskElement(task, taskIndex, bankIndex, bank));
             });
 
             section.appendChild(header);

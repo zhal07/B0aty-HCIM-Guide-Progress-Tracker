@@ -614,6 +614,34 @@ h1 {
   text-shadow: 0 0 1px #000, 1px 1px 0 #000;
 }
 
+/* Withdraw wrapper — layout for label + sublist + optional screenshot */
+.withdraw-wrapper.has-screenshot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  align-items: flex-start;
+}
+
+.withdraw-wrapper.has-screenshot .task-text {
+  flex: 1 1 100%;
+}
+
+.withdraw-wrapper.has-screenshot .withdraw-sublist {
+  flex: 1;
+  min-width: 0;
+}
+
+.withdraw-screenshot {
+  flex-shrink: 0;
+  width: 200px;
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
+  border: 2px solid var(--osrs-parchment-border);
+  outline: 1px solid var(--osrs-frame-dark);
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
 /* Withdraw Sublist */
 .withdraw-sublist {
   margin: var(--space-xs) 0 0 var(--space-md);
@@ -627,7 +655,9 @@ h1 {
 
 .withdraw-subitem {
   line-height: 1.5;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  font-family: 'Courier New', Consolas, ui-monospace, monospace;
 }
 
 /* Wiki links */
@@ -888,6 +918,22 @@ h1 {
 
   .checkbox:checked::after {
     font-size: 0.65rem;
+  }
+
+  /* Mobile: withdraw screenshot below list, compact size */
+  .withdraw-wrapper.has-screenshot {
+    flex-direction: column;
+  }
+
+  .withdraw-wrapper.has-screenshot .withdraw-sublist {
+    flex: none;
+  }
+
+  .withdraw-screenshot {
+    width: 140px;
+    max-height: 140px;
+    align-self: flex-start;
+    margin-top: var(--space-xs);
   }
 
   /* Mobile: action bar moves to bottom-right, horizontal */
